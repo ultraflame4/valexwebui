@@ -11,9 +11,10 @@
 
 <script lang="ts">
 import {RouteLocation} from "vue-router";
+import {defineComponent, ref} from "vue";
 
-export default {
-  name: "NavItem",
+export default defineComponent({
+  text: "NavItem",
   props: {
     text: {
       type: String,
@@ -32,26 +33,28 @@ export default {
       default: ""
     }
   },
-  methods:{
-    openurl(){
+  methods: {
+    openurl() {
       this.$router.push(this.url)
     },
 
   },
+  setup(){
+    const navitem = ref<HTMLDivElement>()
+  },
   mounted() {
-    this.$router.beforeEach((to:RouteLocation, from:RouteLocation, next:Function) => {
+    this.$router.beforeEach((to: RouteLocation, from: RouteLocation, next: Function) => {
 
       let page = to.fullPath.split("/")[1]
-      if (page == this.url){
+      if (page == this.url) {
         this.$refs.navitem.classList.add("nav-item--active")
-      }
-      else{
+      } else {
         this.$refs.navitem.classList.remove("nav-item--active")
       }
       next()
     })
   }
-}
+});
 </script>
 
 <style lang="sass">

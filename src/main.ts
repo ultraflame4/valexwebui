@@ -1,11 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import "./assets/reset.sass"
+import "./assets/global.sass"
 import {createRouter, createWebHashHistory, createWebHistory} from "vue-router";
 import Dashboard from "./views/Dashboard/Dashboard.vue";
 import Containers from "./views/Containers/Containers.vue";
+import {setRouter} from "./api";
 
-const router= createRouter({
+export const router= createRouter({
     history: createWebHistory(),
     routes:[
         {path:"/",name:"Home",redirect:"dashboard"},
@@ -13,6 +14,9 @@ const router= createRouter({
         {path:"/containers",name:"containers",component:Containers},
     ]
 })
+
+setRouter(router)
+
 
 createApp(App)
     .use(router)

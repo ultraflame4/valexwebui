@@ -8,8 +8,11 @@
     <NavItem text="Images" material_icon="collections" url="images"/>
     <NavSection text="Others"/>
     <NavItem text="Watcher" mdi_icon="mdi-eye-refresh" url="watcher"/>
+    <NavSection text="Session"/>
+    <NavItem text="Logout" mdi_icon="logout" @click="api.apiLogout()"/>
 
   </NavSidebar>
+  <ErrorSidebar></ErrorSidebar>
   <router-view></router-view>
 </template>
 
@@ -17,6 +20,12 @@
 import NavSidebar from "@/components/NavSidebar/NavSidebar.vue"
 import NavItem from "./components/NavSidebar/NavItem.vue";
 import NavSection from "./components/NavSidebar/NavSection.vue";
+import * as api from "./api"
+import ErrorSidebar from "./components/ErrorMessageSidebar/ErrorSidebar.vue";
+
+function onLogout() {
+  
+}
 
 </script>
 

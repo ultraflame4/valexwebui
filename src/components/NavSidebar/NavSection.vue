@@ -8,7 +8,7 @@
 
 <script lang="ts">
 export default {
-  name: "NavSection",
+  text: "NavSection",
   props: {
     text: {
       type: String,
