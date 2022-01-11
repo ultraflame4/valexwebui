@@ -26,7 +26,7 @@
 import {defineComponent, PropType} from "vue"
 import ErrorSidebar, {ErrorMsgObj} from "./ErrorSidebar.vue";
 
-const ErrorDuration = 2000 // in ms
+const ErrorDuration = 5000 // in ms
 
 export default defineComponent({
   name: "ErrorMsg",
