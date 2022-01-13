@@ -72,6 +72,9 @@ export default defineComponent({
   },
   methods: {
     refresh(){
+      if (this.dockerCtn == undefined){
+        return
+      }
       if (this.dockerCtn.State == "Exited"){
         (<HTMLDivElement>this.$refs.state).classList.add("bg-danger")
       }
@@ -80,6 +83,9 @@ export default defineComponent({
       return formatDockerContaienrPortsString(ports)
     },
     getDateCreated():string{
+      if (this.dockerCtn == undefined){
+        return ""
+      }
       let date = new Date(this.dockerCtn.Created)
       return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} :: ${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`
     }

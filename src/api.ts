@@ -123,7 +123,21 @@ export function apiLogout(){
     apiSessionToken=""
 }
 
-export function apiLogin(){
+export function apiLogin(apiKey:string):Promise<undefined>{
     apiSessionToken=""
+    return new Promise<undefined>(((resolve, reject) => {
+        $.post("/api/authenticate",{
+            "key": apiKey
+        }).done(()=>{
+            resolve(undefined)
+        }).catch((fail)=>{
+            pushErrorMsg({
+                title: "Login Failed",
+                code: fail.status,
+                message: getApiErrorMsg(fail.status)
+            });
+            reject()
+        })
+    }));
 }
 

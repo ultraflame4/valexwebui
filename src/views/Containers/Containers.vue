@@ -32,8 +32,10 @@ export default defineComponent({
   components: {ContainersList, ButtonWIcon},
   methods:{
     start_selected(){
+      // @ts-ignore
       let containers = this.$refs["container-list"].getAllSelectedContainers()
       startContainers(containers).then((data)=>{
+        // @ts-ignore
         this.$refs["container-list"].$forceUpdate()
         console.log(`Data: ${data}`)
       }).catch((code)=>{

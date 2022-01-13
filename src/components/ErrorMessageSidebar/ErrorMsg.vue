@@ -1,5 +1,5 @@
 <template>
-  <div class="err-msg-ctn animate-appear" title="Enlarge" @click="enlarged=true" ref="ctn">
+  <div class="err-msg-ctn animate-appear" title="Enlarge" ref="ctn">
     <div class="msg-head">
       <div class="msg-title">
         <p>{{ msg.title }}</p>

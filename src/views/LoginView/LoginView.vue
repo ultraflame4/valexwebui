@@ -1,30 +1,78 @@
 <template>
-  <div id="login-view-ctn">
+  <div id="login-view-ctn" ref="ctn">
     <div id="login-input-ctn">
       <div id="login-input">
         <div class="text-gray-200 font-bold title">
           <p>ValexDock</p>
         </div>
         <div class="login-input">
-          <input class="bg-gray-700 text-gray-300" type="password"/>
+          <input class="bg-gray-700 text-gray-300" type="password" placeholder="Enter key" ref="login-key" v-on:keydown.enter="attemptApilogin()"/>
         </div>
         <ButtonWIcon text="Login" style="font-size: 32px;height: fit-content;background-color: #00000000"
-                     material_icon="login"></ButtonWIcon>
+                     material_icon="login" @click="attemptApilogin()"></ButtonWIcon>
       </div>
     </div>
     <div id="login-wait-ctn">
-      <p class="text-gray-300">Waiting for login...</p>
+      <div id="login-spinner">
+        <span class="mdi mdi-shield-lock-outline" style="font-size: 124px"/>
+        <div class="spinner-ctn">
+          <Spinner :radius="400"></Spinner>
+        </div>
+      </div>
+      <p>
+        Logging In
+      </p>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import {defineComponent} from "vue"
-import ButtonWIcon from "../../components/ButtonWIcon.vue";
+import ButtonWIcon from "@/components/ButtonWIcon.vue";
+import * as api from "../../api";
+import Spinner from "../../components/Spinner.vue";
+
 
 export default defineComponent({
   name: "LoginView",
-  components: {ButtonWIcon}
+  components: {Spinner, ButtonWIcon},
+  data() {
+    return {
+      pendingLogin:false
+    }
+  },
+
+  methods:{
+    attemptApilogin(){
+      if (this.pendingLogin || api.isLoggedIn()){
+        return
+      }
+      this.pendingLogin=true;
+      (<HTMLDivElement>this.$refs.ctn).scrollBy({
+        behavior: "smooth",
+        top: window.innerHeight
+      })
+      setTimeout(()=>{
+        api.apiLogin((<HTMLInputElement>this.$refs["login-key"]).value)
+            .then(() => {
+
+            })
+            .catch(()=>{
+
+            })
+            .finally(()=>{
+              setTimeout(()=>{
+                this.pendingLogin=false;
+                (<HTMLDivElement>this.$refs.ctn).scrollBy({
+                  behavior: "smooth",
+                  top: -window.innerHeight
+                })
+              },1000)
+            })
+      },500)
+
+    }
+  }
 })
 </script>
 
@@ -33,8 +81,11 @@ export default defineComponent({
   height: 100vh
   width: 100%
   display: flex
-  overflow-y: auto
   flex-direction: column
+  scroll-snap-type: y mandatory
+
+  *
+    scroll-snap-align: start
 
   #login-input-ctn
     min-height: 100vh
@@ -74,9 +125,15 @@ export default defineComponent({
         border-radius: 8px
 
         input
-          padding: 8px
+          padding: 0 16px
           width: 100%
           height: 100%
+
+  #login-spinner
+    width: 100%
+    display: flex
+    justify-content: center
+    align-items: center
 
 
   #login-wait-ctn
@@ -86,5 +143,16 @@ export default defineComponent({
     display: flex
     align-items: center
     justify-content: center
+    color: white
+    position: relative
+    flex-direction: column
+
+  .spinner-ctn
+    position: absolute
+    width: 100%
+    height: 100%
+    display: flex
+    justify-content: center
+    align-items: center
 
 </style>

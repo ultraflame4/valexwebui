@@ -1,7 +1,7 @@
 <template>
   <div id="container-list">
     <div id="list-overflow-ctn">
-      <ContainerListItem isheader:="true"/>
+      <ContainerListItem :isheader="true"/>
 
       <ContainerListItem v-for="container in container_list"
                          :docker-ctn="container"
@@ -40,14 +40,16 @@ export default defineComponent({
     getAllSelectedContainers():DockerContainer[] {
       let array = new Array<DockerContainer>();
       if (!Array.isArray(this.$refs["container-items"])){
+        // @ts-ignore
         if (this.$refs["container-items"].selected){
+          // @ts-ignore
           array.push(this.$refs["container-items"].dockerCtn)
         }
         return array
       }
 
 
-      (<typeof ContainerListItem>this.$refs["container-items"]).forEach(value => {
+      this.$refs["container-items"].forEach(value => {
         if (value.selected) {
           array.push(value.dockerCtn)
         }

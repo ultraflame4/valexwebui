@@ -11,7 +11,7 @@ import {pushErrorMsg} from "./components/ErrorMessageSidebar/ErrorSidebar.vue";
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {path: "/", name: "Home", redirect: "dashboard"},
+        {path: "/", name: "Home", redirect: "login"},
         {path: "/dashboard", name: "dashboard", component: Dashboard},
         {path: "/containers", name: "containers", component: Containers},
         {path: "/login", name: "login", component: LoginView},

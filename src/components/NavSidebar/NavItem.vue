@@ -39,17 +39,16 @@ export default defineComponent({
     },
 
   },
-  setup(){
-    const navitem = ref<HTMLDivElement>()
-  },
   mounted() {
     this.$router.beforeEach((to: RouteLocation, from: RouteLocation, next: Function) => {
 
       let page = to.fullPath.split("/")[1]
+      let el = <HTMLDivElement>this.$refs.navitem
       if (page == this.url) {
-        this.$refs.navitem.classList.add("nav-item--active")
+
+        el.classList.add("nav-item--active")
       } else {
-        this.$refs.navitem.classList.remove("nav-item--active")
+        el.classList.remove("nav-item--active")
       }
       next()
     })
