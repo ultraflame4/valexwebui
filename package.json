@@ -1,6 +1,6 @@
 {
   "name": "valexweb",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -8,7 +8,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdi/font": "^6.5.95",
     "jquery": "^3.6.0",
     "vue": "^3.2.25",
     "vue-router": "^4.0.12"
