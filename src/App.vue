@@ -24,7 +24,7 @@ import * as api from "./api"
 import ErrorSidebar from "./components/ErrorMessageSidebar/ErrorSidebar.vue";
 
 function onLogout() {
-  
+  api.apiLogout()
 }
 
 </script>
