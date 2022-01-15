@@ -8,6 +8,13 @@ let apiSessionToken: string = ""
 
 let loggedIn: boolean = false
 
+$.ajaxSetup({
+    method: "POST",
+    dataType: "json",
+    contentType: "application/json",
+})
+
+
 export function isLoggedIn() {
     return loggedIn
 }
@@ -84,7 +91,8 @@ function getApiErrorMsg(code: number): string {
             return "The api endpoint cannot be found!"
         case 400:
             return "Bad request to api"
-
+        case 401:
+            return "Unauthorised"
         default:
             return "An Unknown error has occured."
     }
@@ -131,12 +139,14 @@ export function apiLogin(apiKey: string): Promise<undefined> {
     apiSessionToken = ""
     return new Promise<undefined>(((resolve, reject) => {
 
-        $.post("/api/getToken", {key: apiKey},
-            (data) => {
-                loggedIn = true
-                console.log(JSON.stringify(data))
-                resolve(undefined)
-            })
+        $.ajax({
+            url:"/api/getToken",
+            data: JSON.stringify({key:apiKey})
+        }).done((data) => {
+            loggedIn = true
+
+            resolve(undefined)
+        })
             .catch((fail) => {
                 pushErrorMsg({
                     title: "Login Failed",
