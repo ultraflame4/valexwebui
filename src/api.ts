@@ -2,11 +2,11 @@ import $ from "jquery"
 import {Router} from "vue-router";
 import {pushErrorMsg} from "./components/ErrorMessageSidebar/ErrorSidebar.vue";
 
-const useFake: boolean = true
+const useFake: boolean = false
 const apiPath: string = window.location.origin
 let apiSessionToken: string = ""
 
-let loggedIn: boolean = true
+let loggedIn: boolean = false
 
 $.ajaxSetup({
     method: "POST",
