@@ -6,7 +6,7 @@ const useFake: boolean = true
 const apiPath: string = window.location.origin
 let apiSessionToken: string = ""
 
-let loggedIn: boolean = false
+let loggedIn: boolean = true
 
 $.ajaxSetup({
     method: "POST",
@@ -54,17 +54,25 @@ export function formatDockerContaienrPortsString(ports: DockerContainerPort[]): 
 }
 
 
+function _getRandomName(i: int){
+    let s = ""
+    for (let j = 0; j < i; j++) {
+        s = s + "X"
+    }
+    return s
+}
+
 function generateFakeContainerList(count: number): DockerContainer[] {
     let array = new Array<DockerContainer>()
     for (let i = 0; i < count; i++) {
         array.push({
             Id: "fakeid",
-            Image: "fakeimage",
+            Image: `fakeimage ${_getRandomName(i*10)}`,
             ImageID: "totally_real-image-id+dawdfiojabfIOAU",
             Labels: {
                 "example_labelekey": "example_value"
             },
-            Names: ["Name1", "FakeContainer"],
+            Names: [`Name ${i}`, "FakeContainer"],
             Created: 1367854155,
             Ports: [
                 {
@@ -99,13 +107,39 @@ function getApiErrorMsg(code: number): string {
 }
 
 
+function requestApi(path: string, data: Object={}): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            url: path,
+            headers:{
+                token:apiSessionToken
+            },
+            data: JSON.stringify(data),
+            success: (out) => {
+                console.log(out)
+                resolve(out)
+            }
+        }).catch((fail) => {
+            {
+                reject(fail)
+            }
+        })
+    })
+}
+
 export function getListOfContainers(): Promise<DockerContainer[]> {
     if (useFake) {
         return new Promise<DockerContainer[]>((resolve, reject) => resolve(generateFakeContainerList(50)))
     } else {
         return new Promise<DockerContainer[]>((resolve, reject) => {
-            $.getJSON(apiPath + "/api/getcontainerlist", function (data) {
-                resolve(data)
+            requestApi("/api/containers/all")
+                .then(value => {
+                    resolve(value.containers)
+                }).catch(reason => {
+                    reject(reason)
             })
         })
     }
@@ -140,11 +174,11 @@ export function apiLogin(apiKey: string): Promise<undefined> {
     return new Promise<undefined>(((resolve, reject) => {
 
         $.ajax({
-            url:"/api/getToken",
-            data: JSON.stringify({key:apiKey})
+            url: "/api/getToken",
+            data: JSON.stringify({key: apiKey})
         }).done((data) => {
             loggedIn = true
-
+            apiSessionToken = data.token
             resolve(undefined)
         })
             .catch((fail) => {

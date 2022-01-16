@@ -1,54 +1,38 @@
 <template>
-<div v-if="!isheader&&dockerCtn!=undefined" class="container-list-items-ctn">
-  <div class="item-checkbox">
-    <ButtonWIcon v-if="!selected" material_icon="check_box_outline_blank" @click="selected=true"></ButtonWIcon>
-    <ButtonWIcon v-else material_icon="check_box" @click="selected=false"></ButtonWIcon>
-  </div>
-  <div class="item-name">
-    <p v-if="dockerCtn.Names[0].length>0">{{dockerCtn.Names[0]}}</p>
+<tr v-if="dockerCtn!==undefined" class="container-list-items-ctn">
+  <td>
+    <div class="item-checkbox">
+      <ButtonWIcon v-if="!selected" material_icon="check_box_outline_blank" @click="selected=true"></ButtonWIcon>
+      <ButtonWIcon v-else material_icon="check_box" @click="selected=false"></ButtonWIcon>
+    </div>
+  </td>
+  <td class="item-name">
+    <p v-if="dockerCtn.Names!==undefined || dockerCtn.Names[0].length>0">{{dockerCtn.Names[0]}}</p>
     <p v-else>{{dockerCtn.Id}}</p>
-  </div>
-  <div class="item-utils">
-    <ButtonWIcon text="" class="utils-buttons" material_icon="menu"></ButtonWIcon>
-    <ButtonWIcon text="" class="utils-buttons" material_icon="upgrade"></ButtonWIcon>
-  </div>
-  <div class="item-state" ref="state">
-    <p>{{dockerCtn.State}}</p>
-  </div>
-  <div class="item-image">
+  </td>
+  <td>
+    <div class="item-utils">
+      <ButtonWIcon text="" class="utils-buttons" material_icon="menu"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons" material_icon="upgrade"></ButtonWIcon>
+    </div>
+  </td>
+  <td>
+    <div class="item-state" ref="state">
+      <p>{{dockerCtn.State}}</p>
+    </div>
+  </td>
+  <td class="item-image">
     <p v-if="dockerCtn.Image.length>0">{{dockerCtn.Image}}</p>
     <p v-else>{{dockerCtn.ImageID}}</p>
-  </div>
-  <div class="item-datecreated">
+  </td>
+  <td class="item-datecreated">
     <p>{{getDateCreated()}}</p>
-  </div>
-  <div class="item-ports">
+  </td>
+  <td class="item-ports">
     <p>{{formatPorts(dockerCtn.Ports)}}</p>
-  </div>
-</div>
-<div v-else class="container-list-items-ctn header">
-  <div class="item-checkbox">
-    <ButtonWIcon material_icon="check_box"></ButtonWIcon>
-  </div>
-  <div class="item-name">
-    <p>Name</p>
-  </div>
-  <div class="item-utils">
-    <p>Utils</p>
-  </div>
-  <div class="item-state" ref="state">
-    <p>State</p>
-  </div>
-  <div class="item-image">
-    <p>Image</p>
-  </div>
-  <div class="item-datecreated">
-    <p>Created</p>
-  </div>
-  <div class="item-ports">
-    <p>Published ports</p>
-  </div>
-</div>
+  </td>
+</tr>
+
 </template>
 
 <script lang="ts">
@@ -60,15 +44,13 @@ export default defineComponent({
   components: {ButtonWIcon},
   dockerName: "ContainerListItem",
   props:{
-    isheader:{
-      type: Boolean,
-      default:false,
-      required:false
-    },
     dockerCtn:{
       type: Object as PropType<DockerContainer>,
       required:false
     }
+  },
+  setup(props) {
+    console.log(props.dockerCtn)
   },
   methods: {
     refresh(){
@@ -96,7 +78,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    if (!(this.isheader||this.dockerCtn == undefined)){
+    if (!(this.dockerCtn == undefined)){
       this.refresh();
     }
   }
@@ -104,9 +86,7 @@ export default defineComponent({
 </script>
 
 <style lang="sass" scoped>
-.header
-  font-weight: bold
-  @apply text-gray-400
+
 
 .container-list-items-ctn
   @apply text-gray-300
@@ -114,62 +94,49 @@ export default defineComponent({
 
   min-height: 56px
   max-height: fit-content
-  display: flex
-  gap: 16px
 
-  justify-content: flex-start
-  align-items: center
   padding: 0 8px
+  width: 100%
 
-  *
-    height: fit-content
-
-  .item-checkbox
-    width: fit-content
-    flex-shrink: 0
-    flex-grow: 0
-    padding: 0
-
-  .item-name
-    display: flex
-    flex-grow: 1
-    justify-content: center
+  //*
+  //  height: fit-content
+  //  display: flex
+  //  justify-content: center
+  //  align-items: center
 
   .item-state
-    padding: 4px 0
+    padding: 4px 4px
     border-radius: 8px
-    height: 32px
-    width: 90px
     display: flex
     justify-content: center
-  .item-image
-    flex-grow: 1
-    display: flex
-    justify-content: center
-
-  .item-datecreated
-    display: flex
-    width: 260px
-    justify-content: center
-
-  .item-ports
-    width: 200px
-    display: flex
-    justify-content: center
+    width: calc(100% - 8px)
+    background-color: #a22626
 
 
-  .item-utils
+  .item-checkbox
     display: flex
-    gap: 4px
-    width: 72px
+    height: 100%
+    width: 100%
     justify-content: center
     align-items: center
 
-    .utils-buttons
-      height: 32px
-      width: 32px
-      padding: 0
-      font-size: 16px
+  .utils-buttons
+    height: 32px
+    width: 32px
+    padding: 0
+    font-size: 16px
+
+  .item-utils
+    display: flex
+    height: 100%
+    width: 100%
+    justify-content: center
+    align-items: center
+
+  td
+    vertical-align: center
+    text-align: center
+
 
 
 .container-list-items-ctn:hover

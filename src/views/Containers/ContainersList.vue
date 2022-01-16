@@ -1,16 +1,37 @@
 <template>
   <div id="container-list">
-    <div id="list-overflow-ctn">
-      <ContainerListItem :isheader="true"/>
+    <table id="list-overflow-ctn">
+      <colgroup>
+        24
+        <col style="width: 4%">
+        <col style="width: 18%">
+        <col style="width: 8%">
+        <col style="width: 6%">
+        <col style="width: 18%">
+        <col style="width: 12%">
+        <col style="width: 12%">
 
-      <ContainerListItem v-for="container in container_list"
-                         :docker-ctn="container"
-                         ref="container-items"
-      >
+      </colgroup>
+      <thead>
+      <tr>
+        <th>X</th>
+        <th>Name</th>
+        <th>Actions</th>
+        <th>State</th>
+        <th>Image</th>
+        <th>Date Created</th>
+        <th>Published Ports</th>
+      </tr>
+      </thead>
+      <tbody>
+        <ContainerListItem v-for="container in container_list"
+                           :docker-ctn="container"
+                           ref="container-items"
+        >
 
-      </ContainerListItem>
-
-    </div>
+        </ContainerListItem>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -33,7 +54,6 @@ export default defineComponent({
       getListOfContainers().then(value => {
         this.container_list = value
         console.log(this.container_list)
-
 
       })
     },
@@ -69,6 +89,7 @@ export default defineComponent({
   width: 100%
   flex-grow: 1
   position: relative
+
   #list-overflow-ctn
     position: absolute
     width: 100%
@@ -76,15 +97,8 @@ export default defineComponent({
     bottom: 0
     flex-grow: 0
     box-sizing: border-box
-    overflow-y: auto
-
     table-layout: fixed
 
-  th
-    @apply bg-gray-800
-    position: sticky
-    top: 0
-    height: 36px
-    z-index: 1
+
 
 </style>
