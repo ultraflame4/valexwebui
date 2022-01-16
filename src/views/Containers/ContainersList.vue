@@ -89,6 +89,7 @@ export default defineComponent({
   width: 100%
   flex-grow: 1
   position: relative
+  overflow-y: auto
 
   #list-overflow-ctn
     position: absolute
@@ -98,6 +99,7 @@ export default defineComponent({
     flex-grow: 0
     box-sizing: border-box
     table-layout: fixed
+
 
 
 
