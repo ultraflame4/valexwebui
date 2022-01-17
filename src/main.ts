@@ -19,7 +19,7 @@ export const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (!api.isLoggedIn() && to.name != "login") {
+    if (!api.isLoggedIn() && to.name != "login" && !api.debugMode) {
         pushErrorMsg({
             title: "Authentication Precondition Failed",
             code: 412,

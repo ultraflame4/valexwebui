@@ -2,7 +2,12 @@ import $ from "jquery"
 import {Router} from "vue-router";
 import {pushErrorMsg} from "./components/ErrorMessageSidebar/ErrorSidebar.vue";
 
-const useFake: boolean = false
+export let debugMode: boolean = false
+
+export function SetDebugMode(b:boolean){
+    debugMode=b
+}
+
 const apiPath: string = window.location.origin
 let apiSessionToken: string = ""
 
@@ -54,7 +59,7 @@ export function formatDockerContaienrPortsString(ports: DockerContainerPort[]): 
 }
 
 
-function _getRandomName(i: int){
+function _getRandomName(i: number){
     let s = ""
     for (let j = 0; j < i; j++) {
         s = s + "X"
@@ -131,7 +136,7 @@ function requestApi(path: string, data: Object={}): Promise<any> {
 }
 
 export function getListOfContainers(): Promise<DockerContainer[]> {
-    if (useFake) {
+    if (debugMode) {
         return new Promise<DockerContainer[]>((resolve, reject) => resolve(generateFakeContainerList(50)))
     } else {
         return new Promise<DockerContainer[]>((resolve, reject) => {
@@ -167,6 +172,8 @@ export function startContainers(containers: DockerContainer[]): Promise<string> 
 export function apiLogout() {
     apiSessionToken = ""
     loggedIn = false
+    SetDebugMode(false)
+
 }
 
 export function apiLogin(apiKey: string): Promise<undefined> {

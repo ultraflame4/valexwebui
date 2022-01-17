@@ -9,7 +9,7 @@
     <NavSection text="Others"/>
     <NavItem text="Watcher" mdi_icon="mdi-eye-refresh" url="watcher"/>
     <NavSection text="Session"/>
-    <NavItem text="Logout" material_icon="logout" @click="api.apiLogout()"/>
+    <NavItem text="Logout" material_icon="logout" @click="api.apiLogout()" url="login"/>
 
   </NavSidebar>
   <ErrorSidebar></ErrorSidebar>

@@ -8,8 +8,12 @@
         <div class="login-input">
           <input class="bg-gray-700 text-gray-300" type="password" placeholder="Enter key" ref="login-key" v-on:keydown.enter="attemptApilogin()"/>
         </div>
-        <ButtonWIcon text="Login" style="font-size: 32px;height: fit-content;background-color: #00000000"
+        <ButtonWIcon v-if="!debug_key" text="Login" style="font-size: 32px;height: fit-content;background-color: #00000000"
                      material_icon="login" @click="attemptApilogin()"></ButtonWIcon>
+
+        <ButtonWIcon v-else text="Activate Debug Mode" style="font-size: 32px;height: fit-content;background-color: #00000000"
+                     material_icon="build" @click="attemptApilogin()"></ButtonWIcon>
+
       </div>
     </div>
     <div id="login-wait-ctn">
@@ -38,20 +42,42 @@ export default defineComponent({
   components: {Spinner, ButtonWIcon},
   data() {
     return {
-      pendingLogin:false
+      pendingLogin: false,
+      debug_key: false
     }
   },
+  mounted() {
+    window.addEventListener("keydown" ,(e)=>{
+      if (e.ctrlKey && e.altKey && e.shiftKey){
+        this.debug_key=true
+      }
+    })
 
+    window.addEventListener("keyup",(e)=>{
+      if (!(e.ctrlKey && e.altKey && e.shiftKey)){
+        this.debug_key=false
+      }
+    })
+  },
   methods:{
     attemptApilogin(){
       if (this.pendingLogin || api.isLoggedIn()){
         return
       }
+
+      if (this.debug_key){
+        api.SetDebugMode(true)
+
+        return
+      }
+
+
       this.pendingLogin=true;
       (<HTMLDivElement>this.$refs.ctn).scrollBy({
         behavior: "smooth",
         top: window.innerHeight
       })
+
       setTimeout(()=>{
         api.apiLogin((<HTMLInputElement>this.$refs["login-key"]).value)
             .then(() => {
