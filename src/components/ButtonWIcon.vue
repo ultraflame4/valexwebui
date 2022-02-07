@@ -1,5 +1,5 @@
 <template>
-  <div class="button-icon" @click="$router.push(url)">
+  <div class="text-gray-300 button-icon" @click="$router.push(url)">
     <span v-if="material_icon.length>0" class="material-icons icons">
     {{material_icon}}
     </span>
@@ -39,7 +39,7 @@ export default defineComponent({
 
 <style scoped lang="sass">
 .button-icon
-  @apply text-gray-300
+
   width: fit-content
   min-width: fit-content
   height: 48px

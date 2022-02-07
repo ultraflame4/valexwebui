@@ -12,8 +12,12 @@
   </td>
   <td>
     <div class="item-utils">
-      <ButtonWIcon text="" class="utils-buttons" material_icon="menu"></ButtonWIcon>
-      <ButtonWIcon text="" class="utils-buttons" material_icon="upgrade"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons text-success" material_icon="play_arrow" title="Start"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons text-danger" material_icon="stop" title="Stop"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons text-warning" material_icon="pause" title="Pause"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons text-success" material_icon="replay" title="restart"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons" material_icon="download" title="New update! Click to update and restart"></ButtonWIcon>
+      <ButtonWIcon text="" class="utils-buttons" material_icon="more_horiz" title="See all"></ButtonWIcon>
     </div>
   </td>
   <td>
